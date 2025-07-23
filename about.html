@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About AgriScan - Learn about our crop disease detection technology and mission.">
+    <meta name="theme-color" content="#4CAF50">
+    <title>About - AgriScan</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/webapp/static/images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/webapp/static/images/icon-192x192.svg">
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="/webapp/static/manifest.json">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/webapp/static/images/logo.svg" alt="AgriScan Logo">
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about" class="active">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Offline Status Indicator -->
+    <div id="offlineStatus" class="offline-status">
+        <div class="container">
+            <span class="status-indicator online"></span>
+            <span class="status-text">You are currently online</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h2>About AgriScan</h2>
+                    <p>Empowering farmers with AI-powered crop disease detection technology</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <h3>Our Mission</h3>
+                    <p>AgriScan aims to revolutionize crop disease management by providing farmers with an accessible, accurate, and offline-capable tool for early disease detection. By combining artificial intelligence with practical agricultural knowledge, we help reduce crop losses, minimize pesticide use, and improve food security worldwide.</p>
+                    
+                    <h3>The Technology</h3>
+                    <p>AgriScan uses a state-of-the-art deep learning model based on MobileNetV2 architecture, specifically optimized for mobile and offline use. Our model has been trained on thousands of images of plant diseases across various crops, enabling it to identify diseases with high accuracy even in challenging field conditions.</p>
+                    
+                    <div class="tech-features">
+                        <div class="feature">
+                            <h4>Offline Capability</h4>
+                            <p>Works without internet connection, perfect for remote fields</p>
+                        </div>
+                        <div class="feature">
+                            <h4>Lightweight Model</h4>
+                            <p>Optimized for mobile devices with minimal battery consumption</p>
+                        </div>
+                        <div class="feature">
+                            <h4>High Accuracy</h4>
+                            <p>Over 90% accuracy across 38 different crop diseases</p>
+                        </div>
+                        <div class="feature">
+                            <h4>Treatment Recommendations</h4>
+                            <p>Provides actionable advice for managing detected diseases</p>
+                        </div>
+                    </div>
+                    
+                    <h3>How It Works</h3>
+                    <ol class="how-it-works">
+                        <li>
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Take a Photo</h4>
+                                <p>Capture an image of the plant leaf showing symptoms using your device's camera or upload an existing image.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>AI Analysis</h4>
+                                <p>Our machine learning model analyzes the image to identify disease patterns and symptoms.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>Get Results</h4>
+                                <p>Receive instant disease identification with confidence score and multiple possibilities.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Treatment Guidance</h4>
+                                <p>Access specific treatment and prevention recommendations for the identified disease.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    
+                    <h3>Supported Crops</h3>
+                    <p>Currently, AgriScan can detect diseases in the following crops:</p>
+                    <div class="crops-grid">
+                        <div class="crop">Apple</div>
+                        <div class="crop">Blueberry</div>
+                        <div class="crop">Cherry</div>
+                        <div class="crop">Corn (Maize)</div>
+                        <div class="crop">Grape</div>
+                        <div class="crop">Orange</div>
+                        <div class="crop">Peach</div>
+                        <div class="crop">Pepper</div>
+                        <div class="crop">Potato</div>
+                        <div class="crop">Rice</div>
+                        <div class="crop">Soybean</div>
+                        <div class="crop">Squash</div>
+                        <div class="crop">Strawberry</div>
+                        <div class="crop">Tomato</div>
+                        <div class="crop">Wheat</div>
+                    </div>
+                    
+                    <h3>Contact Us</h3>
+                    <p>Have questions or feedback? We'd love to hear from you!</p>
+                    <p>Email: <a href="mailto:info@agriscan.ai">info@agriscan.ai</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AgriScan - Crop Disease Detection</p>
+            <p>Powered by TensorFlow and MobileNetV2</p>
+        </div>
+    </footer>
+
+    <!-- Database JS (for offline storage) -->
+    <script src="/webapp/static/js/database.js"></script>
+    
+    <!-- Main App JS -->
+    <script src="/webapp/static/js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/webapp/static/js/service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

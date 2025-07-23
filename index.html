@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AgriScan - Crop Disease Detection with Offline Mode. Detect plant diseases instantly and get treatment recommendations.">
+    <meta name="theme-color" content="#4CAF50">
+    <title>AgriScan - Crop Disease Detection</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/webapp/static/images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/webapp/static/images/icon-192x192.svg">
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="/webapp/static/manifest.json">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    
+    <!-- TensorFlow.js (for offline inference) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <img src="/webapp/static/images/logo.svg" alt="AgriScan Logo">
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/about" class="">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Offline Status Indicator -->
+    <div id="offlineStatus" class="offline-status">
+        <div class="container">
+            <span class="status-indicator online"></span>
+            <span class="status-text">You are currently online</span>
+        </div>
+    </div>
+
+    <!-- Offline Notification -->
+    <div id="offlineNotification" class="offline-notification" hidden>
+        <div class="container">
+            <div class="offline-message">
+                <img src="/webapp/static/images/offline-icon.svg" alt="Offline Icon">
+                <p>You are offline. Some features may be limited, but you can still analyze images using the offline model.</p>
+                <button id="installBtn" class="btn btn-secondary" hidden>Install App for Offline Use</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Detect Plant Diseases Instantly</h2>
+                    <p>Take a photo of a crop leaf and get instant disease detection with treatment recommendations. Works offline in the field!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="upload-section">
+            <div class="container">
+                <div class="upload-container">
+                    <h3>Upload a Leaf Image</h3>
+                    <div class="upload-area" id="dropArea">
+                        <div class="upload-instructions">
+                            <img src="/webapp/static/images/upload-icon.svg" alt="Upload Icon" id="uploadIcon">
+                            <p>Drag & drop an image here or click to browse</p>
+                            <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg" hidden>
+                            <button class="browse-btn" id="browseBtn">Browse Files</button>
+                        </div>
+                        <div class="camera-option">
+                            <p>Or take a photo with your camera</p>
+                            <button class="camera-btn" id="cameraBtn">
+                                <img src="/webapp/static/images/camera-icon.svg" alt="Camera Icon">
+                                Take Photo
+                            </button>
+                        </div>
+                        <div class="preview-container" id="previewContainer" hidden>
+                            <img id="imagePreview" alt="Image Preview">
+                            <div class="preview-actions">
+                                <button class="cancel-btn" id="cancelBtn">Cancel</button>
+                                <button class="analyze-btn" id="analyzeBtn">Analyze</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section" id="resultsSection" hidden>
+            <div class="container">
+                <div class="results-container">
+                    <h3>Analysis Results</h3>
+                    <div class="results-content">
+                        <div class="results-image">
+                            <img id="resultImage" alt="Analyzed Image">
+                        </div>
+                        <div class="results-details">
+                            <div class="loader" id="resultsLoader">
+                                <div class="spinner"></div>
+                                <p>Analyzing image...</p>
+                            </div>
+                            <div id="resultsData" hidden>
+                                <div class="primary-result">
+                                    <h4>Primary Detection</h4>
+                                    <div class="disease-name" id="primaryDiseaseName"></div>
+                                    <div class="confidence" id="primaryConfidence"></div>
+                                    <div class="description" id="primaryDescription"></div>
+                                </div>
+                                <div class="treatment-info">
+                                    <h4>Treatment Recommendations</h4>
+                                    <div class="treatment" id="treatmentInfo"></div>
+                                    <h4>Prevention</h4>
+                                    <div class="prevention" id="preventionInfo"></div>
+                                </div>
+                                <div class="other-possibilities">
+                                    <h4>Other Possibilities</h4>
+                                    <ul id="otherPossibilities"></ul>
+                                </div>
+                                <div class="analysis-meta">
+                                    <p>Inference Time: <span id="inferenceTime"></span></p>
+                                </div>
+                                <button class="new-analysis-btn" id="newAnalysisBtn">Analyze Another Image</button>
+                            </div>
+                            <div id="errorMessage" class="error-message" hidden>
+                                <p>An error occurred during analysis. Please try again.</p>
+                                <button class="new-analysis-btn" id="errorRetryBtn">Try Again</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="offline-mode">
+            <div class="container">
+                <div class="offline-info">
+                    <h3>Works Offline!</h3>
+                    <p>AgriScan works even without an internet connection. Install the app on your device to use it in the field.</p>
+                    <div class="offline-status" id="offlineStatus">
+                        <span class="status-indicator online"></span>
+                        <span class="status-text">You are currently online</span>
+                    </div>
+                    <button class="install-btn" id="installBtn" hidden>Install App</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AgriScan - Crop Disease Detection</p>
+            <p>Powered by TensorFlow and MobileNetV2</p>
+        </div>
+    </footer>
+
+    <!-- Database JS (for offline storage) -->
+    <script src="/webapp/static/js/database.js"></script>
+    
+    <!-- Offline Inference JS -->
+    <script src="/webapp/static/js/offline-inference.js"></script>
+    
+    <!-- Main App JS -->
+    <script src="/webapp/static/js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/webapp/static/js/service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
