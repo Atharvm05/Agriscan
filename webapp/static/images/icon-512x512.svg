@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="#4CAF50"/>
+  
+  <!-- Main Leaf Shape -->
+  <path d="M256 128C176 128 96 208 96 288C96 368 256 368 256 288C256 368 416 368 416 288C416 208 336 128 256 128Z" fill="#ffffff" opacity="0.9"/>
+  
+  <!-- Leaf Veins -->
+  <path d="M256 128C230 178 230 238 256 288M256 128C282 178 282 238 256 288M176 208C230 238 282 238 336 208" stroke="#388E3C" stroke-width="10" fill="none"/>
+  
+  <!-- Magnifying Glass -->
+  <circle cx="336" cy="258" r="64" fill="none" stroke="#FFC107" stroke-width="16"/>
+  <line x1="380" y1="302" x2="416" y2="338" stroke="#FFC107" stroke-width="16" stroke-linecap="round"/>
+  
+  <!-- Text at bottom -->
+  <text x="256" y="440" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff" text-anchor="middle">AgriScan</text>
+</svg>

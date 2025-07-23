@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Offline Mode - AgriScan{% endblock %}
+
+{% block content %}
+        <section class="offline-page">
+            <div class="container">
+                <div class="offline-icon">
+                    <img src="{{ url_for('static', filename='images/offline-icon.svg') }}" alt="Offline Icon">
+                </div>
+                <h2>You're Offline</h2>
+                <p>It looks like you don't have an internet connection right now. Don't worry! AgriScan is designed to work offline.</p>
+                
+                <div class="offline-features">
+                    <div class="offline-feature">
+                        <h3>Available Offline</h3>
+                        <p>You can still analyze plant images and get disease predictions without an internet connection.</p>
+                    </div>
+                    <div class="offline-feature">
+                        <h3>Limited Features</h3>
+                        <p>Some features like updating the model or accessing the latest treatment recommendations may not be available offline.</p>
+                    </div>
+                </div>
+                
+                <a href="{{ url_for('index') }}" class="retry-btn">Go to Home Page</a>
+            </div>
+        </section>
+{% endblock %}

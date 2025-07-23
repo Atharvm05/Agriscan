@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}About - AgriScan{% endblock %}
+
+{% block content %}
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h2>About AgriScan</h2>
+                    <p>Empowering farmers with AI-powered crop disease detection technology</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-content">
+            <div class="container">
+                <div class="about-section">
+                    <h3>Our Mission</h3>
+                    <p>AgriScan aims to revolutionize crop disease management by providing farmers with an accessible, easy-to-use tool that can identify plant diseases instantly, even in areas with limited or no internet connectivity. By combining advanced machine learning with practical agricultural knowledge, we help farmers take timely action to protect their crops and improve yields.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>How It Works</h3>
+                    <div class="how-it-works">
+                        <div class="step">
+                            <div class="step-icon">
+                                <img src="{{ url_for('static', filename='images/camera-icon.svg') }}" alt="Take Photo">
+                            </div>
+                            <h4>Take a Photo</h4>
+                            <p>Capture an image of the plant leaf showing signs of disease using your device's camera or upload an existing image.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">
+                                <img src="{{ url_for('static', filename='images/analyze-icon.svg') }}" alt="AI Analysis">
+                            </div>
+                            <h4>AI Analysis</h4>
+                            <p>Our machine learning model analyzes the image to identify the disease affecting the plant with high accuracy.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">
+                                <img src="{{ url_for('static', filename='images/treatment-icon.svg') }}" alt="Get Recommendations">
+                            </div>
+                            <h4>Get Recommendations</h4>
+                            <p>Receive detailed information about the disease and actionable treatment recommendations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3>The Technology</h3>
+                    <p>AgriScan uses a Convolutional Neural Network (CNN) based on MobileNetV2 architecture, trained on the PlantVillage dataset containing thousands of images of healthy and diseased plant leaves. The model is optimized for mobile devices using TensorFlow Lite, allowing it to run efficiently on smartphones and tablets without requiring an internet connection.</p>
+                    <div class="tech-details">
+                        <div class="tech-item">
+                            <h4>Model Architecture</h4>
+                            <p>MobileNetV2-based CNN optimized for mobile devices</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Training Dataset</h4>
+                            <p>PlantVillage dataset with various crop disease images</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Offline Capability</h4>
+                            <p>TensorFlow Lite for on-device inference without internet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3>Supported Crops and Diseases</h3>
+                    <p>AgriScan can identify diseases in various crops including:</p>
+                    <div class="crops-grid">
+                        <div class="crop-item">
+                            <h4>Tomato</h4>
+                            <ul>
+                                <li>Early Blight</li>
+                                <li>Late Blight</li>
+                                <li>Leaf Mold</li>
+                                <li>Septoria Leaf Spot</li>
+                                <li>Spider Mites</li>
+                                <li>Target Spot</li>
+                                <li>Yellow Leaf Curl Virus</li>
+                                <li>Mosaic Virus</li>
+                                <li>Bacterial Spot</li>
+                            </ul>
+                        </div>
+                        <div class="crop-item">
+                            <h4>Potato</h4>
+                            <ul>
+                                <li>Early Blight</li>
+                                <li>Late Blight</li>
+                                <li>Healthy</li>
+                            </ul>
+                        </div>
+                        <div class="crop-item">
+                            <h4>Apple</h4>
+                            <ul>
+                                <li>Apple Scab</li>
+                                <li>Black Rot</li>
+                                <li>Cedar Apple Rust</li>
+                                <li>Healthy</li>
+                            </ul>
+                        </div>
+                        <div class="crop-item">
+                            <h4>Corn (Maize)</h4>
+                            <ul>
+                                <li>Cercospora Leaf Spot (Gray Leaf Spot)</li>
+                                <li>Common Rust</li>
+                                <li>Northern Leaf Blight</li>
+                                <li>Healthy</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="note">Note: The actual diseases detected may vary based on the specific model training.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Privacy and Data Usage</h3>
+                    <p>We respect your privacy. When using the offline mode, all image processing happens directly on your device, and no data is sent to external servers. Images uploaded in online mode are temporarily stored for processing and are automatically deleted after analysis.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AgriScan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Offline notification -->
+    <div class="offline-notification" id="offlineNotification" hidden>
+        <p>You are offline. AgriScan will continue to work with limited functionality.</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('{{ url_for("service_worker") }}').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

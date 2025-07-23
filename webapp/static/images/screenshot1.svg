@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+  
+  <!-- Header -->
+  <rect width="1280" height="80" fill="#4CAF50"/>
+  
+  <!-- Logo -->
+  <g transform="translate(40, 20)">
+    <path d="M40 10C25 10 10 25 10 40C10 55 40 55 40 40C40 55 70 55 70 40C70 25 55 10 40 10Z" fill="#ffffff" />
+    <path d="M40 10C35 20 35 30 40 40M40 10C45 20 45 30 40 40M25 25C35 30 45 30 55 25" stroke="#e0e0e0" stroke-width="2" fill="none" />
+    <circle cx="55" cy="35" r="10" fill="none" stroke="#FFC107" stroke-width="3" />
+    <line x1="62" y1="42" x2="68" y2="48" stroke="#FFC107" stroke-width="3" stroke-linecap="round" />
+    <text x="80" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ffffff">AgriScan</text>
+    <text x="80" y="50" font-family="Arial, sans-serif" font-size="12" fill="#e0e0e0">Crop Disease Detection</text>
+  </g>
+  
+  <!-- Navigation -->
+  <text x="1000" y="45" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Home</text>
+  <text x="1080" y="45" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">About</text>
+  <text x="1160" y="45" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Help</text>
+  
+  <!-- Hero Section -->
+  <rect x="40" y="120" width="1200" height="200" rx="10" fill="#388E3C"/>
+  <text x="80" y="180" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#ffffff">Detect Crop Diseases Instantly</text>
+  <text x="80" y="220" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Upload a photo or use your camera to identify plant diseases and get treatment recommendations</text>
+  <text x="80" y="260" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Works offline - perfect for use in the field!</text>
+  
+  <!-- Upload Area -->
+  <rect x="40" y="360" width="1200" height="300" rx="10" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  <circle cx="640" cy="460" r="60" fill="#f0f0f0" stroke="#4CAF50" stroke-width="2" stroke-dasharray="5,5"/>
+  <path d="M640 430L620 450H630V480H650V450H660L640 430Z" fill="#4CAF50"/>
+  <text x="640" y="520" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333333">Drag & drop your image here</text>
+  <text x="640" y="550" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#666666">or</text>
+  
+  <!-- Buttons -->
+  <rect x="540" y="580" width="120" height="40" rx="20" fill="#4CAF50"/>
+  <text x="600" y="605" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#ffffff">Browse</text>
+  
+  <rect x="680" y="580" width="120" height="40" rx="20" fill="#FFC107"/>
+  <text x="740" y="605" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333333">Camera</text>
+  
+  <!-- Footer -->
+  <rect y="680" width="1280" height="40" fill="#333333"/>
+  <text x="640" y="705" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#ffffff">© 2023 AgriScan - Crop Disease Detection</text>
+</svg>

@@ -1,0 +1,61 @@
+{
+  "name": "AgriScan - Crop Disease Detection",
+  "short_name": "AgriScan",
+  "description": "Detect crop diseases and get treatment recommendations, even offline",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "/static/images/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/images/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/images/screenshot1.svg",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "AgriScan Homepage"
+    },
+    {
+      "src": "/static/images/screenshot2.svg",
+      "sizes": "720x1280",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "AgriScan Mobile View"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Upload Image",
+      "short_name": "Upload",
+      "description": "Upload a crop image for disease detection",
+      "url": "/?action=upload",
+      "icons": [{ "src": "/static/images/upload-icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Take Photo",
+      "short_name": "Camera",
+      "description": "Take a photo of a crop for disease detection",
+      "url": "/?action=camera",
+      "icons": [{ "src": "/static/images/camera-icon.svg", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["agriculture", "utilities", "productivity"],
+  "lang": "en-US",
+  "orientation": "any",
+  "dir": "ltr"
+}

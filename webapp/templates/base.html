@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AgriScan - Crop Disease Detection with Offline Mode. Detect plant diseases instantly and get treatment recommendations.">
+    <meta name="theme-color" content="#4CAF50">
+    <title>{% block title %}AgriScan - Crop Disease Detection{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icon-192x192.svg') }}">
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- TensorFlow.js (for offline inference) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/static/js/service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="AgriScan Logo">
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}" class="{% if request.path == url_for('about') %}active{% endif %}">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Offline Status Indicator -->
+    <div id="offlineStatus" class="offline-status">
+        <div class="container">
+            <span class="status-indicator online"></span>
+            <span class="status-text">You are currently online</span>
+        </div>
+    </div>
+
+    <!-- Offline Notification -->
+    <div id="offlineNotification" class="offline-notification" hidden>
+        <div class="container">
+            <div class="offline-message">
+                <img src="{{ url_for('static', filename='images/offline-icon.svg') }}" alt="Offline Icon">
+                <p>You are offline. Some features may be limited, but you can still analyze images using the offline model.</p>
+                <button id="installBtn" class="btn btn-secondary" hidden>Install App for Offline Use</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AgriScan - Crop Disease Detection</p>
+            <p>Powered by TensorFlow and MobileNetV2</p>
+        </div>
+    </footer>
+
+    <!-- Database JS (for offline storage) -->
+    <script src="{{ url_for('static', filename='js/database.js') }}"></script>
+    
+    <!-- Offline Inference JS -->
+    <script src="{{ url_for('static', filename='js/offline-inference.js') }}"></script>
+    
+    <!-- Main App JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    <!-- Additional Scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

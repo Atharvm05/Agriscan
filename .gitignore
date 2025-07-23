@@ -1,0 +1,43 @@
+# Python virtual environment
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Model files (can be large)
+*.h5
+*.tflite
+*.pb
+
+# Dataset files (can be very large)
+data/raw/
+
+# Uploaded images
+webapp/static/uploads/
+
+# Environment variables
+.env
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# TensorFlow logs
+logs/
+tensorboard_logs/
