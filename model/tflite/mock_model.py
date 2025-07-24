@@ -21,8 +21,8 @@ def create_mock_tflite_model():
     Create a minimal mock TFLite model file for deployment testing.
     This is just a placeholder and won't actually perform inference.
     """
-    # Create a simple model structure
-    mock_model_content = bytes([0x54, 0x46, 0x4C, 0x33])  # TFL3 magic bytes
+    # Create a simple model structure with at least 7 bytes
+    mock_model_content = bytes([0x54, 0x46, 0x4C, 0x33, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])  # TFL3 magic bytes + padding
     
     # Write the mock model file
     with open(BASE_DIR / 'agriscan_model.tflite', 'wb') as f:

@@ -1,0 +1,22 @@
+{
+  "default": {
+    "treatment": "Consult with a local agricultural expert for specific treatment advice.",
+    "prevention": "Practice crop rotation, ensure proper spacing for air circulation, and maintain field hygiene."
+  },
+  "healthy": {
+    "treatment": "No treatment needed. The plant appears healthy.",
+    "prevention": "Continue good agricultural practices such as proper watering, fertilization, and pest monitoring."
+  },
+  "bacterial": {
+    "treatment": "Remove and destroy infected plants. Apply copper-based bactericides.",
+    "prevention": "Use disease-free seeds, practice crop rotation, and avoid overhead irrigation."
+  },
+  "viral": {
+    "treatment": "Remove and destroy infected plants. Control insect vectors with appropriate insecticides.",
+    "prevention": "Use virus-free seeds, control weeds that may harbor viruses, and control insect vectors."
+  },
+  "fungal": {
+    "treatment": "Apply appropriate fungicides. Remove and destroy severely infected plant parts.",
+    "prevention": "Ensure proper spacing for air circulation, avoid overhead irrigation, and practice crop rotation."
+  }
+}

@@ -8,14 +8,17 @@
     <title>About - AgriScan</title>
     
     <!-- Favicon -->
-    <link rel="icon" href="/webapp/static/images/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/webapp/static/images/icon-192x192.svg">
+    <link rel="icon" href="/static/images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/static/images/icon-192x192.svg">
     
     <!-- Manifest for PWA -->
-    <link rel="manifest" href="/webapp/static/manifest.json">
+    <link rel="manifest" href="/static/manifest.json">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/webapp/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- TensorFlow.js (for offline inference) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -23,7 +26,7 @@
         <div class="container">
             <div class="logo">
                 <a href="/">
-                    <img src="/webapp/static/images/logo.svg" alt="AgriScan Logo">
+                    <img src="/static/images/logo.svg" alt="AgriScan Logo">
                 </a>
             </div>
             <nav class="nav">
@@ -151,16 +154,19 @@
     </footer>
 
     <!-- Database JS (for offline storage) -->
-    <script src="/webapp/static/js/database.js"></script>
+    <script src="/static/js/database.js"></script>
+    
+    <!-- Offline Inference JS -->
+    <script src="/static/js/offline-inference.js"></script>
     
     <!-- Main App JS -->
-    <script src="/webapp/static/js/app.js"></script>
+    <script src="/static/js/app.js"></script>
     
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/webapp/static/js/service-worker.js')
+                navigator.serviceWorker.register('/static/js/service-worker.js')
                     .then(function(registration) {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })

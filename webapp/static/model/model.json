@@ -1,0 +1,20 @@
+{
+  "format": "layers-model",
+  "generatedBy": "AgriScan",
+  "convertedBy": "TensorFlow.js Converter",
+  "modelTopology": {
+    "class_name": "Sequential",
+    "config": {
+      "name": "sequential",
+      "layers": []
+    },
+    "keras_version": "2.4.0",
+    "backend": "tensorflow"
+  },
+  "weightsManifest": [
+    {
+      "paths": ["group1-shard1of1.bin"],
+      "weights": []
+    }
+  ]
+}
