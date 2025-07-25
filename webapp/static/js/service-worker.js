@@ -15,6 +15,7 @@ const ASSETS_TO_CACHE = [
 ];
 
 // Install event - cache assets
+// self is always available in service worker context, so no null check needed
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -27,6 +28,7 @@ self.addEventListener('install', event => {
 });
 
 // Activate event - clean up old caches
+// self is always available in service worker context, so no null check needed
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   
@@ -44,6 +46,7 @@ self.addEventListener('activate', event => {
 });
 
 // Fetch event - serve from cache or network
+// self is always available in service worker context, so no null check needed
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
@@ -97,6 +100,7 @@ self.addEventListener('fetch', event => {
 });
 
 // Background sync for offline image uploads
+// self is always available in service worker context, so no null check needed
 self.addEventListener('sync', event => {
   if (event.tag === 'sync-images') {
     event.waitUntil(syncImages());

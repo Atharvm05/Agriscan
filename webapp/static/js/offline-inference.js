@@ -96,34 +96,60 @@ class OfflineInference {
   async loadLabels() {
     try {
       // Check if labels exist in IndexedDB
-      const labelsData = await this.db.getModel(this.labelsId);
+      let labelsData = await this.db.getModel(this.labelsId);
       
       if (labelsData) {
-        // Load labels from IndexedDB
-        this.labels = JSON.parse(new TextDecoder().decode(labelsData.model));
-        console.log('Labels loaded from IndexedDB:', this.labels);
-      } else {
+        try {
+          // Load labels from IndexedDB
+          this.labels = JSON.parse(new TextDecoder().decode(labelsData.model));
+          console.log('Labels loaded from IndexedDB:', this.labels);
+        } catch (parseError) {
+          console.error('Error parsing labels from IndexedDB:', parseError);
+          // If parsing fails, we'll try to download fresh labels
+          labelsData = null;
+        }
+      }
+      
+      if (!labelsData || !this.labels) {
         // Download labels from server
         if (!navigator.onLine) {
           throw new Error('Cannot download labels while offline');
         }
         
-        const response = await fetch('/static/model/labels.json');
-        if (!response.ok) {
-          throw new Error(`Failed to fetch labels: ${response.status} ${response.statusText}`);
+        // Try label_map.json first
+        try {
+          const response = await fetch('/static/model/label_map.json');
+          if (response.ok) {
+            this.labels = await response.json();
+          } else {
+            // Fallback to labels.json
+            const fallbackResponse = await fetch('/static/model/labels.json');
+            if (!fallbackResponse.ok) {
+              throw new Error(`Failed to fetch labels: ${fallbackResponse.status} ${fallbackResponse.statusText}`);
+            }
+            this.labels = await fallbackResponse.json();
+          }
+        } catch (fetchError) {
+          console.error('Error fetching labels:', fetchError);
+          // Create a default empty labels object as fallback
+          this.labels = {};
+          throw fetchError;
         }
         
-        this.labels = await response.json();
-        
         // Save labels to IndexedDB
-        const labelsBuffer = new TextEncoder().encode(JSON.stringify(this.labels));
-        await this.db.saveModel(this.labelsId, labelsBuffer, {
-          format: 'json',
-          version: '1.0.0',
-          date: new Date().toISOString()
-        });
-        
-        console.log('Labels downloaded and saved to IndexedDB:', this.labels);
+        try {
+          const labelsBuffer = new TextEncoder().encode(JSON.stringify(this.labels));
+          await this.db.saveModel(this.labelsId, labelsBuffer, {
+            format: 'json',
+            version: '1.0.0',
+            date: new Date().toISOString()
+          });
+          
+          console.log('Labels downloaded and saved to IndexedDB:', this.labels);
+        } catch (saveError) {
+          console.error('Error saving labels to IndexedDB:', saveError);
+          // Continue even if saving fails
+        }
       }
     } catch (error) {
       console.error('Error loading labels:', error);
@@ -297,6 +323,7 @@ class OfflineInference {
 const offlineInference = new OfflineInference();
 
 // Initialize when the page loads if offline mode is enabled
+// document is always available in browser environment, so no null check needed
 document.addEventListener('DOMContentLoaded', () => {
   const offlineEnabled = localStorage.getItem('offlineEnabled') === 'true';
   if (offlineEnabled) {

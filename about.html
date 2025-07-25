@@ -165,6 +165,7 @@
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
+            // window is always available in browser environment, so no null check needed
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/static/js/service-worker.js')
                     .then(function(registration) {

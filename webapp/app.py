@@ -43,8 +43,20 @@ def load_tflite_model():
 def load_label_map():
     # Check if label map exists
     if (TFLITE_MODEL_DIR / 'label_map.json').exists():
-        with open(TFLITE_MODEL_DIR / 'label_map.json', 'r') as f:
-            return json.load(f)
+        try:
+            with open(TFLITE_MODEL_DIR / 'label_map.json', 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"Error parsing label_map.json from TFLITE_MODEL_DIR: {e}")
+    
+    # Try loading from webapp static directory as fallback
+    webapp_label_map = Path(__file__).resolve().parent / 'static' / 'model' / 'label_map.json'
+    if webapp_label_map.exists():
+        try:
+            with open(webapp_label_map, 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"Error parsing label_map.json from webapp static: {e}")
     
     # If label map doesn't exist, check if class labels exist
     if (MODEL_DIR / 'class_labels.txt').exists():
@@ -121,7 +133,40 @@ def preprocess_image(image_path, input_size=224):
     img_array = img_array / 255.0  # Normalize to [0,1]
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     
-    return img_array
+    return img_array, img
+
+# Function to validate if image contains plant/leaf
+def is_plant_image(img):
+    """Basic validation to check if an image likely contains a plant or leaf.
+    
+    This uses a simple color-based heuristic: plants typically have more green
+    than other colors in the image.
+    
+    Args:
+        img: PIL Image object
+        
+    Returns:
+        bool: True if the image likely contains a plant, False otherwise
+    """
+    # Convert to numpy array
+    img_array = np.array(img)
+    
+    # Calculate average color values
+    avg_r = np.mean(img_array[:,:,0])
+    avg_g = np.mean(img_array[:,:,1])
+    avg_b = np.mean(img_array[:,:,2])
+    
+    # Check if green is dominant (simple heuristic)
+    is_green_dominant = avg_g > (avg_r * 0.9) and avg_g > (avg_b * 0.9)
+    
+    # Check green percentage in image
+    green_pixels = np.sum((img_array[:,:,1] > img_array[:,:,0]) & 
+                          (img_array[:,:,1] > img_array[:,:,2]))
+    total_pixels = img_array.shape[0] * img_array.shape[1]
+    green_percentage = green_pixels / total_pixels
+    
+    # Return True if either condition is met
+    return is_green_dominant or green_percentage > 0.15
 
 # Function to get disease category
 def get_disease_category(disease_name):
@@ -141,7 +186,11 @@ def get_disease_category(disease_name):
 # Function to predict disease from image
 def predict_disease(image_path, interpreter, label_map, treatments):
     # Preprocess the image
-    input_data = preprocess_image(image_path)
+    input_data, img = preprocess_image(image_path)
+    
+    # Validate if the image contains a plant
+    if not is_plant_image(img):
+        raise ValueError("The uploaded image does not appear to contain a plant or leaf. Please upload an image of a plant leaf for disease detection.")
     
     # Get input and output tensors
     input_details = interpreter.get_input_details()
@@ -164,18 +213,30 @@ def predict_disease(image_path, interpreter, label_map, treatments):
     
     for i, idx in enumerate(top_indices):
         confidence = float(output_data[0][idx])
-        label_info = label_map.get(str(idx), {'name': f'Unknown_{idx}', 'display_name': f'Unknown {idx}', 'description': 'Unknown disease'})
+        
+        # Handle different label_map formats
+        if isinstance(label_map.get(str(idx)), dict):
+            # Complex format with name, display_name, description
+            label_info = label_map.get(str(idx), {'name': f'Unknown_{idx}', 'display_name': f'Unknown {idx}', 'description': 'Unknown disease'})
+            class_name = label_info['name']
+            display_name = label_info['display_name']
+            description = label_info.get('description', display_name)
+        else:
+            # Simple format with just class names as strings
+            class_name = label_map.get(str(idx), f'Unknown_{idx}')
+            display_name = class_name.replace('_', ' ').title()
+            description = display_name
         
         # Get disease category and treatment
-        disease_category = get_disease_category(label_info['name'])
+        disease_category = get_disease_category(class_name)
         treatment_info = treatments.get(disease_category, treatments['default'])
         
         prediction = {
             'rank': i + 1,
             'class_id': int(idx),
-            'class_name': label_info['name'],
-            'display_name': label_info['display_name'],
-            'description': label_info.get('description', label_info['display_name']),
+            'class_name': class_name,
+            'display_name': display_name,
+            'description': description,
             'confidence': confidence,
             'confidence_percent': f"{confidence * 100:.2f}%",
             'treatment': treatment_info['treatment'],

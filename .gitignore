@@ -18,9 +18,10 @@ build/
 *.h5
 *.pb
 
-# Exclude large model files but include mock model for Vercel
+# Exclude large model files but include mock models for Vercel
 *.tflite
 !model/tflite/agriscan_model.tflite
+!model/tflite/agriscan_model_quantized.tflite
 
 # Dataset files (can be very large)
 data/raw/
